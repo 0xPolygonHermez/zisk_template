@@ -7,7 +7,7 @@ const OUTPUT_DIR: &str = "output";
 const FILE_NAME: &str = "input.bin";
 
 fn main() -> io::Result<()> {
-    let number: u64 = 90;
+    let number: u64 = 45;
 
     // Ensure the output directory exists
     let output_dir = Path::new(OUTPUT_DIR);

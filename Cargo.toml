@@ -6,4 +6,4 @@ default-run = "fibonacci"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ziskos = { path = "../../ziskos/entrypoint" }
+ziskos = { git = "ssh://git@github.com/0xPolygonHermez/zisk.git" }

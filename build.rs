@@ -3,7 +3,7 @@ use std::io::{self, Write};
 use std::path::Path;
 
 // Define constants for the directory and file names
-const OUTPUT_DIR: &str = "output";
+const OUTPUT_DIR: &str = "build";
 const FILE_NAME: &str = "input.bin";
 
 fn main() -> io::Result<()> {

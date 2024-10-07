@@ -3,11 +3,11 @@ use std::io::{self, Write};
 use std::path::Path;
 
 // Define constants for the directory and file names
-const OUTPUT_DIR: &str = "build";
+const OUTPUT_DIR: &str = "build/";
 const FILE_NAME: &str = "input.bin";
 
 fn main() -> io::Result<()> {
-    let number: u64 = 45;
+    let number: u64 = 10000;
 
     // Ensure the output directory exists
     let output_dir = Path::new(OUTPUT_DIR);

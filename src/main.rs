@@ -1,5 +1,4 @@
-//! A simple program that takes a number `n` as input, and writes the `n-1`th and `n`th fibonacci
-//! number as an output.
+//! A simple program that takes a number `n` as input, and computes the SHA256 hash `n` times.
 
 // These two lines are necessary for the program to properly compile.
 //
@@ -8,6 +7,7 @@
 #![no_main]
 ziskos::entrypoint!(main);
 
+use sha2::{Digest, Sha256};
 use std::convert::TryInto;
 use ziskos::{read_input, write_output};
 
@@ -18,18 +18,16 @@ fn main() {
     // Convert the byte array to a u64 number
     let n: u64 = u64::from_le_bytes(input.try_into().unwrap());
 
-    // Initialize the first two Fibonacci numbers
-    let mut a: u32 = 0;
-    let mut b: u32 = 1;
+    let mut out = [0u8; 32];
 
-    // Calculate the nth Fibonacci number
     for _ in 0..n {
-        let c: u32 = a + b;
-        a = b;
-        b = c;
+        let mut hasher = Sha256::new();
+        hasher.update(out);
+        let digest = &hasher.finalize();
+        out = Into::<[u8; 32]>::into(*digest);
     }
 
     // Write the output using ziskos
-    let output = format!("n:{} a:{} b:{}\n", n, a, b);
+    let output = format!("n:{} {:?}\n", n, out);
     write_output(output.as_bytes(), output.len());
 }

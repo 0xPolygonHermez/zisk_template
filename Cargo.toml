@@ -7,5 +7,5 @@ default-run = "sha_hasher"
 
 [dependencies]
 sha2 = "0.10.8"
-#ziskos = { git = "ssh://git@github.com/0xPolygonHermez/zisk.git" }
-ziskos = { path = "../zisk/ziskos/entrypoint" }
+ziskos = { git = "https://github.com/0xPolygonHermez/zisk.git" }
+#ziskos = { path = "../zisk/ziskos/entrypoint" }

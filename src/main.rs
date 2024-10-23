@@ -30,7 +30,7 @@ fn main() {
 
     // Write the output using ziskos
     for i in 0..8 {
-        let val = byteorder::NativeEndian::read_u32(&mut out[i*4..i*4+4]);
+        let val = byteorder::BigEndian::read_u32(&mut out[i*4..i*4+4]);
         set_output(i, val);
     }
 }

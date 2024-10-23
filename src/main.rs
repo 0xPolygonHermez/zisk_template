@@ -9,7 +9,8 @@ ziskos::entrypoint!(main);
 
 use sha2::{Digest, Sha256};
 use std::convert::TryInto;
-use ziskos::{read_input, write_output};
+use ziskos::{read_input, set_output};
+use byteorder::ByteOrder;
 
 fn main() {
     // Get the input slice from ziskos
@@ -28,6 +29,8 @@ fn main() {
     }
 
     // Write the output using ziskos
-    let output = format!("n:{} {:?}\n", n, out);
-    write_output(output.as_bytes(), output.len());
+    for i in 0..8 {
+        let val = byteorder::NativeEndian::read_u32(&mut out[i*4..i*4+4]);
+        set_output(i, val);
+    }
 }

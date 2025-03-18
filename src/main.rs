@@ -14,8 +14,11 @@ fn main() {
     let input: Vec<u8> = read_input();
 
     // Get the 'n' value converting the input byte array into a u64 value
-    let n: u64 = u64::from_le_bytes(input.try_into().unwrap());
-
+    let n: u64 = match input.try_into() {
+        Ok(bytes) => u64::from_le_bytes(bytes),
+        Err(_) => panic!("Invalid input length. Expected 8 bytes, got {}", input.len()),
+    };
+    
     let mut hash = [0u8; 32];
 
     // Compute SHA-256 hashing 'n' times

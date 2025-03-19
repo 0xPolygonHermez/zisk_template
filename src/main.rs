@@ -13,10 +13,10 @@ fn main() {
     // Read the input data as a byte array from ziskos
     let input: Vec<u8> = read_input();
 
-    // Get the 'n' value converting the input byte array into a u64 value
+    // Convert the input data to a u64 integer
     let n: u64 = match input.try_into() {
-        Ok(bytes) => u64::from_le_bytes(bytes),
-        Err(_) => panic!("Invalid input length. Expected 8 bytes, got {}", input.len()),
+        Ok(input_bytes) => u64::from_le_bytes(input_bytes),
+        Err(input) => panic!("Invalid input length. Expected 8 bytes, got {}", input.len()),
     };
     
     let mut hash = [0u8; 32];

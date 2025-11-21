@@ -6,19 +6,19 @@ ziskos::entrypoint!(main);
 
 use sha2::{Digest, Sha256};
 use std::convert::TryInto;
-use ziskos::{read_input, set_output};
+use ziskos::{read_input_slice, set_output};
 use byteorder::ByteOrder;
 
 fn main() {
     // Read the input data as a byte array from ziskos
-    let input: Vec<u8> = read_input();
+    let input= read_input_slice();
 
     // Convert the input data to a u64 integer
-    let n: u64 = match input.try_into() {
+    let n: u64 = match input.as_ref().try_into() {
         Ok(input_bytes) => u64::from_le_bytes(input_bytes),
-        Err(input) => panic!("Invalid input length. Expected 8 bytes, got {}", input.len()),
+        Err(e) => panic!("Invalid input, error: {}", e),
     };
-    
+
     let mut hash = [0u8; 32];
 
     // Compute SHA-256 hashing 'n' times

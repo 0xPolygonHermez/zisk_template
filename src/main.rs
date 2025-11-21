@@ -11,7 +11,7 @@ use byteorder::ByteOrder;
 
 fn main() {
     // Read the input data as a byte array from ziskos
-    let input= read_input_slice();
+    let input = read_input_slice();
 
     // Convert the input data to a u64 integer
     let n: u64 = match input.as_ref().try_into() {

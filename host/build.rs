@@ -7,7 +7,7 @@ fn main() {
     let stdin_save = ZiskStdin::new();
     stdin_save.write(&n);
     // Check if path exists, if not write
-    let path = PathBuf::from("tmp/verify_constraints_input.bin");
+    let path = PathBuf::from("tmp/input.bin");
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent).unwrap();
     }

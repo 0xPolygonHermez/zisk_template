@@ -1,7 +1,7 @@
 use anyhow::Result;
 use zisk_sdk::{ZiskStdin, ZiskIO, ElfBinary, ProofOpts, ProverClient, include_elf};
 
-pub const ELF: ElfBinary = include_elf!("sha-hasher-guest");
+pub const ELF: ElfBinary = include_elf!("guest");
 
 fn main() -> Result<()> {
     println!("Starting ZisK Prover Client...");

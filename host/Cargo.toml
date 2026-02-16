@@ -16,23 +16,3 @@ zisk-sdk = { workspace = true }
 default = []
 packed = []
 gpu = ["zisk-sdk/gpu"]
-
-[[bin]]
-name = "prove"
-path = "bin/prove.rs"
-
-[[bin]]
-name = "execute"
-path = "bin/execute.rs"
-
-[[bin]]
-name = "plonk"
-path = "bin/plonk.rs"
-
-[[bin]]
-name = "compressed"
-path = "bin/compressed.rs"
-
-[[bin]]
-name = "ziskemu"
-path = "bin/ziskemu.rs"

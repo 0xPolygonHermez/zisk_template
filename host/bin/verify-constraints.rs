@@ -27,11 +27,11 @@ fn main() -> Result<()> {
     let client = ProverClient::builder().emu().verify_constraints().build().unwrap();
 
     println!("Setting up program...");
-    client.setup(&elf)?;
+    let (pk, _) = client.setup(&ELF)?;
     println!("Setup completed successfully");
 
     println!("Verifying constraints (no proof generation)...");
-    let result = client.verify_constraints(stdin.clone())?;
+    let result = client.verify_constraints(&pk, stdin.clone())?;
 
     println!("\u{2713} VerifyConstraints completed successfully!");
     println!("Cycles: {}", result.get_execution_steps());

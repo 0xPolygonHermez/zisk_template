@@ -2,7 +2,7 @@ use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use zisk_sdk::{
-    ZiskStdin, ZiskIO, ElfBinary,
+    ZiskStdin, ElfBinary,
     ProofOpts, ProverClient, ZiskProof, ZiskProofWithPublicValues, ZiskPublics, include_elf,
 };
 
@@ -26,7 +26,7 @@ fn main() -> Result<()> {
 
     // Create a `ProverClient` method.
     println!("Building prover client...");
-    let client = ProverClient::builder().asm().base_port(54321).build().unwrap();
+    let client = ProverClient::builder().build().unwrap();
 
     println!("Setting up program...");
     let (pk, _) = client.setup(&ELF)?;

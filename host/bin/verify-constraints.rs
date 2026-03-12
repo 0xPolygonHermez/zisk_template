@@ -1,7 +1,8 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
-use zisk_sdk::{ProverClient, elf_path, ZiskStdin, ZiskIO, ElfBinaryFromFile};
+use zisk_sdk::{include_elf, ElfBinary, ProverClient, ZiskStdin};
+
+pub const ELF: ElfBinary = include_elf!("guest");
 
 #[derive(Serialize, Deserialize, Debug)]
 struct Output {
@@ -12,8 +13,6 @@ struct Output {
 
 fn main() -> Result<()> {
     println!("Starting ZisK Prover Client...");
-
-    let elf = ElfBinaryFromFile::new(&PathBuf::from(elf_path!("guest")), false)?;
 
     let current_dir = std::env::current_dir()?;
     let stdin =
@@ -27,7 +26,7 @@ fn main() -> Result<()> {
     let client = ProverClient::builder().emu().verify_constraints().build().unwrap();
 
     println!("Setting up program...");
-    let (pk, _) = client.setup(&ELF)?;
+    let (pk, _vkey) = client.setup(&ELF)?;
     println!("Setup completed successfully");
 
     println!("Verifying constraints (no proof generation)...");

@@ -1,6 +1,6 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
-use zisk_sdk::{ZiskStdin, ZiskIO, ElfBinary, ProverClient, include_elf};
+use zisk_sdk::{ZiskStdin, ElfBinary, ProverClient, include_elf};
 
 pub const ELF: ElfBinary = include_elf!("guest");
 
@@ -22,7 +22,7 @@ fn main() -> Result<()> {
 
     // Create a `ProverClient` method.
     println!("Building prover client...");
-    let client = ProverClient::builder().asm().base_port(54321).build().unwrap();
+    let client = ProverClient::builder().build().unwrap();
 
     println!("Setting up program...");
     let (pk, _) = client.setup(&ELF)?;

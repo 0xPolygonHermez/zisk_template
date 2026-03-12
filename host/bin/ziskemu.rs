@@ -13,9 +13,7 @@ fn main() -> Result<()> {
 
     println!("Running ZisK Emulator...");
     let emu_options = EmuOptions {
-        stats: true,
-        read_symbols: true,
-        top_roi_detail: true,
+        log_output: true,
         ..EmuOptions::default()
     };
     ziskemu(&ELF, stdin, &emu_options)?;

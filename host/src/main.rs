@@ -1,32 +1,55 @@
 use anyhow::Result;
-use zisk_sdk::{ZiskStdin, ElfBinary, ProofOpts, ProverClient, include_elf};
+use zisk_sdk::{ExecutorKind, GuestProgram, ProverClient, ZiskStdin, load_program};
 
-pub const ELF: ElfBinary = include_elf!("guest");
+static PROGRAM: GuestProgram = load_program!("guest");
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     println!("Starting ZisK Prover Client...");
 
-    // Create an input stream and write '1000' to it.
+    let client = ProverClient::embedded()
+        .executor(ExecutorKind::Assembly)
+        .build()?;
+
+    client.upload(&PROGRAM).run()?;
+    client.setup(&PROGRAM).run()?.await?;
+
     let n = 1000u32;
     let stdin = ZiskStdin::new();
     stdin.write(&n);
 
-    // Create a `ProverClient` method.
-    let client = ProverClient::builder().build().unwrap();
-
-    let (pk, vkey) = client.setup(&ELF)?;
-
-    // Execute the program using the `ProverClient.execute` method, without generating a proof.
-    let result = client.execute(&pk, stdin.clone())?;
+    let handle = client
+        .execute(&PROGRAM, stdin.clone())
+        .executor(ExecutorKind::Assembly)
+        .run()?;
+    let result = handle.await?; // automatically calls finish() on the stream
 
     println!(
-        "ZisK has executed program with {} cycles in {:?}",
-        result.executor_summary.steps, result.total_duration
+        "ZisK has executed program with {} cycles in {:?} ms",
+        result.get_execution_steps(),
+        result.get_execution_time()
     );
 
-    let proof_opts = ProofOpts::default().minimal_memory();
-    let vadcop_result = client.prove(&pk, stdin).with_proof_options(proof_opts).run()?;
-    client.verify(vadcop_result.get_proof(), vadcop_result.get_publics(), &vkey)?;
+    let prove_handle = client
+        .prove(&PROGRAM, stdin.clone())
+        .executor(ExecutorKind::Assembly)
+        .run()?;
+    let vadcop_result = prove_handle.await?;
+
+    let vkey = PROGRAM.vk()?;
+    vadcop_result.with_program_vk(&vkey).verify()?;
+
+    println!("successfully generated and verified proof for the program!");
+    println!("Running second proof generation with new input...");
+
+    let prove_handle2 = client
+        .prove(&PROGRAM, stdin.clone())
+        .executor(ExecutorKind::Assembly)
+        .run()?;
+    let vadcop_result2 = prove_handle2.await?;
+
+    let vkey = PROGRAM.vk()?;
+    vadcop_result2.with_program_vk(&vkey).verify()?;
 
     println!("successfully generated and verified proof for the program!");
 

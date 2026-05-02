@@ -1,8 +1,8 @@
 use anyhow::Result;
 use common::Output;
-use zisk_sdk::{ExecutorKind, GuestProgram, ProverClient, ZiskStdin, load_program};
+use zisk_sdk::{GuestProgram, ProverClient, ZiskStdin, load_program};
 
-static PROGRAM: GuestProgram = load_program!("sha-hasher-guest");
+static PROGRAM: GuestProgram = load_program!("guest");
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -17,7 +17,6 @@ async fn main() -> Result<()> {
     // Create a `ProverClient` method.
     println!("Building prover client...");
     let client = ProverClient::embedded()
-        .executor(ExecutorKind::Assembly)
         .build()?;
 
     println!("Setting up program...");

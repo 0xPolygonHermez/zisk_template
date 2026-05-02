@@ -2,7 +2,7 @@ use anyhow::Result;
 use common::Output;
 use sha2::{Digest, Sha256};
 use zisk_sdk::{
-    ExecutorKind, GuestProgram, Proof, ProverClient, PublicValues, ZiskStdin, load_program,
+    GuestProgram, Proof, ProverClient, PublicValues, ZiskStdin, load_program,
 };
 
 static PROGRAM: GuestProgram = load_program!("guest");
@@ -12,7 +12,7 @@ async fn main() -> Result<()> {
     println!("Starting ZisK Prover Client...");
 
     // Create an input stream and write '1000' to it.
-    let n = 1000u32;
+    let n = 1u32;
     let stdin = ZiskStdin::new();
     stdin.write(&n);
     println!("Input prepared: {} iterations", n);
@@ -20,7 +20,6 @@ async fn main() -> Result<()> {
     // Create a `ProverClient` method.
     println!("Building prover client...");
     let client = ProverClient::embedded()
-        .executor(ExecutorKind::Assembly)
         .build()?;
 
     println!("Setting up program...");
@@ -31,7 +30,6 @@ async fn main() -> Result<()> {
     println!("Generating proof (this may take a while)...");
     let result = client
         .prove(&PROGRAM, stdin)
-        .executor(ExecutorKind::Assembly)
         .run()?
         .await?;
     println!(

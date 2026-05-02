@@ -1,5 +1,5 @@
 use anyhow::Result;
-use zisk_sdk::{ExecutorKind, GuestProgram, ProofKind, ProverClient, ZiskStdin, load_program};
+use zisk_sdk::{GuestProgram, ProofKind, ProverClient, ZiskStdin, load_program};
 
 static PROGRAM: GuestProgram = load_program!("guest");
 
@@ -16,7 +16,6 @@ async fn main() -> Result<()> {
     // Create a `ProverClient` method.
     println!("Building prover client...");
     let client = ProverClient::embedded()
-        .executor(ExecutorKind::Assembly)
         .build()?;
 
     println!("Setting up program...");

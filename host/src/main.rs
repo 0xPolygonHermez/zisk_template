@@ -1,5 +1,5 @@
 use anyhow::Result;
-use zisk_sdk::{ExecutorKind, GuestProgram, ProverClient, ZiskStdin, load_program};
+use zisk_sdk::{GuestProgram, ProverClient, ZiskStdin, load_program};
 
 static PROGRAM: GuestProgram = load_program!("guest");
 
@@ -8,7 +8,6 @@ async fn main() -> Result<()> {
     println!("Starting ZisK Prover Client...");
 
     let client = ProverClient::embedded()
-        .executor(ExecutorKind::Assembly)
         .build()?;
 
     client.upload(&PROGRAM).run()?;
@@ -20,7 +19,6 @@ async fn main() -> Result<()> {
 
     let handle = client
         .execute(&PROGRAM, stdin.clone())
-        .executor(ExecutorKind::Assembly)
         .run()?;
     let result = handle.await?; // automatically calls finish() on the stream
 
@@ -32,7 +30,6 @@ async fn main() -> Result<()> {
 
     let prove_handle = client
         .prove(&PROGRAM, stdin.clone())
-        .executor(ExecutorKind::Assembly)
         .run()?;
     let vadcop_result = prove_handle.await?;
 
@@ -44,7 +41,6 @@ async fn main() -> Result<()> {
 
     let prove_handle2 = client
         .prove(&PROGRAM, stdin.clone())
-        .executor(ExecutorKind::Assembly)
         .run()?;
     let vadcop_result2 = prove_handle2.await?;
 

@@ -1,36 +1,15 @@
 [package]
-name = "host"
+name = "template-host"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-zisk-sdk = { workspace = true }
+zisk-sdk = { git = "https://github.com/0xPolygonHermez/zisk.git", tag = "v1.0.0-beta" }             
+template-common = { path = "../common" }
 anyhow = "1.0"
-serde = { version = "1.0", default-features = false, features = ["derive"] }
-sha2 = "0.10.8"
-tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
-alloy-sol-types = "1.5.7"
-common = { path = "../common" }
+
+# Only needed if you want to make async calls to the prover client (e.g. streaming or a remote prover).
+# tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 
 [build-dependencies]
-zisk-sdk = { workspace = true }
-
-[[bin]]
-name = "prove"
-path = "bin/prove.rs"
-
-[[bin]]
-name = "execute"
-path = "bin/execute.rs"
-
-[[bin]]
-name = "plonk"
-path = "bin/plonk.rs"
-
-[[bin]]
-name = "minimal"
-path = "bin/minimal.rs"
-
-[[bin]]
-name = "run"
-path = "bin/run.rs"
+zisk-sdk = { git = "https://github.com/0xPolygonHermez/zisk.git", tag = "v1.0.0-beta" }

@@ -8,7 +8,7 @@ use alloy_sol_types::SolValue;
 use common::Output;
 use sha2::{Digest, Sha256};
 
-fn main() {
+fn main() -> i32 {
     // Read the input data
     let n: u32 = ziskos::io::read();
 
@@ -37,4 +37,6 @@ fn main() {
 
     // Write raw ABI-encoded bytes directly (no bincode serialization)
     ziskos::io::commit_slice(&bytes);
+
+    0
 }

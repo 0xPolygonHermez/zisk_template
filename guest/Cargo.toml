@@ -4,6 +4,6 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-ziskos = { git = "https://github.com/0xPolygonHermez/zisk.git", tag = "v1.0.0-beta" }
+ziskos = { git = "https://github.com/0xPolygonHermez/zisk.git", tag = "v1.4.0-alpha" }
 template-common = { path = "../common" }
 
